@@ -17,9 +17,9 @@ const reducer = (state = initialState, action) => {
     case types.GET_ALL_LAWYER_SUCCESS:
       return {
         ...state,
+        lawyer: payload.data,
         isLoading: false,
         isError: false,
-        lawyer: payload.data,
       };
     case types.GET_ALL_LAWYER_FAILURE:
       return {

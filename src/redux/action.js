@@ -3,20 +3,10 @@ import * as types from "./actionTypes";
 import { snackbarNotification } from "./snackbar/action";
 export const addLawyer = (payload) => (dispatch) => {
   dispatch({ type: types.ADD_LAWYER_REQUEST });
-  const authToken = JSON.parse(localStorage.getItem("token")) || "";
   return axios
-    .post(`http://localhost:5000/api/addLawyer`, payload, {
-      headers: {
-        Authorization: `${authToken}`,
-      },
-    })
+    .post(`https://lawyerb.onrender.com/api/addLawyer`, payload, {})
     .then((r) => {
       dispatch({ type: types.ADD_LAWYER_SUCCESS, payload: r });
-      const data = {
-        notificationType: "success",
-        notificationMessage: "Doctor Added Successfully",
-      };
-      dispatch(snackbarNotification(data));
       return r;
     })
     .catch((e) => {
@@ -35,7 +25,7 @@ export const addLawyer = (payload) => (dispatch) => {
 export const getAllLawyer = (payload) => (dispatch) => {
   dispatch({ type: types.GET_ALL_LAWYER_REQUEST });
   return axios
-    .get(`http://localhost:5000/api/allLawyer`, {})
+    .get(`https://lawyerb.onrender.com/api/allLawyer`, {})
     .then((r) => {
       dispatch({ type: types.GET_ALL_LAWYER_SUCCESS, payload: r });
       return r;
@@ -57,18 +47,9 @@ export const updateLawyer = (id, payload) => (dispatch) => {
   dispatch({ type: types.UPDATE_LAWYER_REQUEST });
   const authToken = JSON.parse(localStorage.getItem("token")) || "";
   return axios
-    .patch(`http://localhost:5000/api/${id}`, payload, {
-      headers: {
-        Authorization: `${authToken}`,
-      },
-    })
+    .patch(`https://lawyerb.onrender.com/api/${id}`, payload, {})
     .then((r) => {
       dispatch({ type: types.UPDATE_LAWYER_SUCCESS, payload: r });
-      const data = {
-        notificationType: "success",
-        notificationMessage: "Doctor Updated Successfully",
-      };
-      dispatch(snackbarNotification(data));
       return r;
     })
     .catch((e) => {
@@ -88,20 +69,12 @@ export const getSearch = (query) => (dispatch) => {
   dispatch({ type: types.GET_ALL_LAWYER_REQUEST });
   const authToken = JSON.parse(localStorage.getItem("token")) || "";
   return axios
-    .get(`http://localhost:5000/api/Search?searchParam=${query}`, {
-      headers: {
-        Authorization: `${authToken}`,
-      },
-    })
+    .get(
+      `https://lawyerb.onrender.com/api/lawyerSearch?searchParam=${query}`,
+      {}
+    )
     .then((response) => {
       dispatch({ type: types.GET_ALL_LAWYER_SUCCESS, payload: response });
-      if (response?.data?.message) {
-        const data = {
-          notificationType: "success",
-          notificationMessage: response?.data?.message,
-        };
-        dispatch(snackbarNotification(data));
-      }
       return response;
     })
     .catch((error) => {
